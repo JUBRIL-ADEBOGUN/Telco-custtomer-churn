@@ -10,3 +10,4 @@ __pycache__/
 # IDE and editor specific files
 .vscode/
 .idea/
+*.ipynb
