@@ -1,0 +1,12 @@
+# Add your project dependencies here
+pandas
+seaborn
+scikit-learn
+joblib
+ipykernel
+shap
+tqdm
+black
+flake8
+pytest
+fastapi[all]

@@ -1,0 +1,116 @@
+import joblib
+import pandas as pd
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+# 1. Create a FastAPI app instance
+app = FastAPI(title="Telco Prediction API", version="1.0")
+
+# 2. Load our trained model
+# Make sure you have a trained model file from your previous step
+MODEL_PATH = "models/churn_model_v1.pkl"
+model = joblib.load(MODEL_PATH)
+
+# 3. Define the input data structure using Pydantic
+# This creates data validation and a clear schema for our API
+class ChurnFeatures(BaseModel):
+    tenure: int
+    MonthlyCharges: float
+    TotalCharges: float
+    gender: int
+    Contract: int
+    PaymentMethod: int
+    PaperlessBilling: int
+    InternetService: int
+    MultipleLines: int
+    OnlineSecurity: int
+    OnlineBackup: int
+    DeviceProtection: int
+    TechSupport: int
+    StreamingTV: int
+    StreamingMovies: int
+    Dependents: int
+    Partner: int
+    SeniorCitizen: int
+    PhoneService: int
+    tenure_group: int
+    MonthlyCharges_group: int
+    avg_monthly_spend: float
+    tenure_ratio: float
+    is_new_customer: int
+    high_monthly_charges: int
+    is_monthly_contract: int
+    fiber_new_customer: int
+    senior_echeck: int
+    paperless_echeck: int
+    has_family: int
+    protection_score: int
+    is_streaming_user: int
+    fiber_no_lines: int
+    num_services: int
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "tenure": 12,
+                "MonthlyCharges": 59.99,
+                "TotalCharges": 720.0,
+                "gender": 1,
+                "Contract": 0,
+                "PaymentMethod": 1,
+                "PaperlessBilling": 1,
+                "InternetService": 2,
+                "MultipleLines": 0,
+                "OnlineSecurity": 1,
+                "OnlineBackup": 0,
+                "DeviceProtection": 1,
+                "TechSupport": 0,
+                "StreamingTV": 1,
+                "StreamingMovies": 0,
+                "Dependents": 0,
+                "Partner": 1,
+                "SeniorCitizen": 0,
+                "PhoneService": 1,
+                "tenure_group": 0,
+                "MonthlyCharges_group": 1,
+                "avg_monthly_spend": 60.0,
+                "tenure_ratio": 0.16,
+                "is_new_customer": 1,
+                "high_monthly_charges": 0,
+                "is_monthly_contract": 1,
+                "fiber_new_customer": 0,
+                "senior_echeck": 0,
+                "paperless_echeck": 1,
+                "has_family": 1,
+                "protection_score": 2,
+                "is_streaming_user": 1,
+                "fiber_no_lines": 0,
+                "num_services": 5
+            }
+        }
+
+# 4. Define the prediction endpoint
+@app.post("/predict")
+def predict_churn(features: ChurnFeatures):
+    """
+    Takes customer features as input and returns a churn prediction.
+    """
+    # Convert the Pydantic model to a pandas DataFrame
+    # The model was trained on a DataFrame, so it expects that as input
+    input_df = pd.DataFrame([features.dict()])
+    
+    # Make a prediction
+    prediction = model.predict(input_df)[0]
+    probability = model.predict_proba(input_df)[0].tolist()
+
+    # Return the result as JSON
+    return {
+        "prediction": int(prediction),
+        "prediction_label": "Churn" if prediction == 1 else "No Churn",
+        "class_probabilities": {"No Churn": probability[0], "Churn": probability[1]}
+    }
+
+# A simple root endpoint for checking if the API is running
+@app.get("/")
+def read_root():
+    return {"status": "API is running"}

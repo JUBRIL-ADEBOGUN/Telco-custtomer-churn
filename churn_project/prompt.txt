@@ -1,0 +1,2 @@
+Feature selection:
+ Act as an Expert ML enginner with high domain knowledge in telecommunication industry, perform features selection for your modelling task with exceptional and outstanding performance in detecting customer that will churn.
