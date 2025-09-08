@@ -1,0 +1,52 @@
+# Name of your workflow
+name: CI-CD for Churn API
+
+# 1. Define the trigger: when does this workflow run?
+on:
+  push:
+    branches: [ "main" ] # Runs every time you push to the 'main' branch
+
+# 2. Define the jobs (the stages of the assembly line)
+jobs:
+  build_and_test:
+    # 3. Specify the virtual machine to run on
+    runs-on: ubuntu-latest
+
+    # 4. List the sequential steps for this job
+    steps:
+    # Step to check out the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step to set up a specific version of Python
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+
+    # Step to install Python dependencies from requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    # Step to run our tests (The "CI" part)
+    - name: Run Pytest
+      run: pytest
+
+    # Step to log in to Docker Hub (Required to push the image)
+    # This step will only run if the tests above passed
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # Step to build the Docker image and push it to Docker Hub (The "CD" part)
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/churn-api:latest 
+        # Replace YOUR_DOCKERHUB_USERNAME with your username
