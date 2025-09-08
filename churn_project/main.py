@@ -8,7 +8,7 @@ app = FastAPI(title="Telco Prediction API", version="1.0")
 
 # 2. Load our trained model
 # Make sure you have a trained model file from your previous step
-MODEL_PATH = "models/churn_model_v1.pkl"
+MODEL_PATH = "churn_project/models/churn_model_v1.pkl"
 model = joblib.load(MODEL_PATH)
 
 # 3. Define the input data structure using Pydantic
@@ -81,3 +81,4 @@ def predict_churn(features: ChurnFeatures):
 @app.get("/")
 def read_root():
     return {"status": "API is running"}
+
