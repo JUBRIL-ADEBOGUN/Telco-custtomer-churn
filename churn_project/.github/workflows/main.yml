@@ -1,5 +1,5 @@
 # Name of your workflow
-name: CI-CD for Telco Churn API
+name: Telco Churn API
 
 # 1. Define the trigger: when does this workflow run?
 on:
@@ -49,4 +49,5 @@ jobs:
         context: .
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/churn-api:latest 
+
     # Make sure DOCKERHUB_USERNAME is set as a repository secret in GitHub settings
