@@ -10,7 +10,7 @@ COPY requirements.txt .
 
 # 4. Install the Python dependencies
 # --no-cache-dir makes the image smaller
-RUN pip install --no-cache-dir -r churn_project/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 5. Copy the rest of your application code into the container
 COPY . .
@@ -22,3 +22,4 @@ EXPOSE 80
 # Use 0.0.0.0 to make the server accessible from outside the container
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+
