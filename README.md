@@ -1,7 +1,7 @@
 # End-to-End MLOps: A Production-Ready Customer Churn Prediction API
 
 
-![alt text](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/main.yml/badge.svg)
+![alt text](https://github.com/JUBRIL-ADEBOGUN/Telco-custtomer-churn/actions/workflows/main.yml/badge.svg)]
 
 
 ## Project Overview
