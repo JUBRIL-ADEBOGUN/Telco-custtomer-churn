@@ -1,10 +1,19 @@
-End-to-End MLOps: A Production-Ready Customer Churn Prediction API
+# End-to-End MLOps: A Production-Ready Customer Churn Prediction API
+
+
 ![alt text](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/main.yml/badge.svg)
-Project Overview
+
+
+## Project Overview
+
 This project goes beyond a typical data science notebook. It is a complete, end-to-end implementation of a machine learning system designed to predict customer churn. The primary goal was not just to build an accurate model, but to engineer a robust, scalable, and automated MLOps pipeline for serving it as a production-ready API.
+
 The system automatically tests, packages, and prepares the application for deployment whenever new code is pushed to the main branch, ensuring reliability and a streamlined development lifecycle.
 Live API Endpoint: [Add your deployed Google Cloud Run URL here]
+
+
 Core Features
+
 Machine Learning Model: A Random Forest Classifier trained on customer data to predict churn with high accuracy.
 RESTful API: A high-performance API built with FastAPI to serve model predictions over the web. Includes automatic data validation and interactive documentation.
 Containerization: The entire application and its dependencies are packaged into a lightweight, portable Docker container for consistent execution in any environment.
